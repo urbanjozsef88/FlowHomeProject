@@ -30,7 +30,7 @@ public class UserController {
 
     @DeleteMapping
     public void deleteUser(@PathVariable int id){
-
+        userService.deleteUser(id);
     }
 
 
