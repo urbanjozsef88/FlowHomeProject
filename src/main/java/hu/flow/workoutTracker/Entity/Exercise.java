@@ -15,11 +15,11 @@ public class Exercise {
     @Column
     private String name;
     @Column
-    private int sets;
-    @Column
-    private int reps;
-    @Column
-    private int weight;
+    private String type;
+
+
+    //private Wo_Ex woEx;
+
 
 
 

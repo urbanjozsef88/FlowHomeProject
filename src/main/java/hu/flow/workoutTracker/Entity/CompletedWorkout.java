@@ -1,11 +1,21 @@
 package hu.flow.workoutTracker.Entity;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
-public class CompletedWorkout {
+@Entity
+@Table
+public class CompletedWorkout{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String name;
+
+    @Column
     private LocalDate createdAt;
+
+
+    //private List<Workout> workoutHistory;
 
 }
