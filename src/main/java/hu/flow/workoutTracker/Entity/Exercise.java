@@ -8,17 +8,25 @@ import javax.persistence.*;
 @Entity
 @Table
 public class Exercise {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
     @Column
     private String name;
     @Column
     private String type;
+    @Column
+    private int sets;
+    @Column
+    private int reps;
+    @Column
+    private int weight;
 
 
-    //private Wo_Ex woEx;
+
+
+
 
 
 

@@ -19,8 +19,24 @@ public class Workout {
     @Column
     private LocalDate createdAt;
 
-    @ManyToMany
+    @ManyToOne
+    private User user;
+
+ /*   @Column
+    private int userId;*/
+
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn
     private List<Exercise> exercises;
+
+
+
+    public void addExercise(Exercise exerciseToAdd){
+        this.exercises.add(exerciseToAdd);
+    }
+
+
 
 
 

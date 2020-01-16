@@ -1,14 +1,11 @@
 package hu.flow.workoutTracker.Service;
 
 import hu.flow.workoutTracker.Entity.User;
-import hu.flow.workoutTracker.Entity.Workout;
 import hu.flow.workoutTracker.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -18,12 +15,16 @@ public class UserService {
 
 
     public User getUser(String email, String password){
+        if(userRepository.findByEmail(email) != null){
         User u = userRepository.findByEmail(email);
         if(BCrypt.checkpw(password, u.getPassword())){
             return u;
         } else{
             System.err.println("Wrong password");
         return null;}
+        }else{
+            return null;
+        }
     }
 
     public void createUser(User user){

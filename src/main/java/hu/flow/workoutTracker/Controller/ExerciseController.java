@@ -10,9 +10,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/user/exercise")
 public class ExerciseController {
 
-    @GetMapping
-    public Exercise getExercise(@PathVariable int id){
-        return null;
-    }
 
 }

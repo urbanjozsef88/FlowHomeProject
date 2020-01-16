@@ -3,9 +3,7 @@ package hu.flow.workoutTracker.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -29,10 +27,12 @@ public class User {
 
 
     @OneToMany
+    @JoinColumn
     private List<Workout> workouts;
 
-    @OneToOne
-    private CompletedWorkout completedWorkouts;
+    @OneToMany
+    @JoinColumn
+    private List<CompletedWorkout> completedWorkouts;
 
     public User(int id, String email, String firstName, String lastName, String password) {
         this.id = id;
