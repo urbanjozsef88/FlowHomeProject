@@ -13,6 +13,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
     @GetMapping
     public User getUser(@RequestParam String email, String password){
         return userService.getUser(email, password);

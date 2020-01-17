@@ -1,6 +1,8 @@
 package hu.flow.workoutTracker.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -10,7 +12,7 @@ import javax.persistence.*;
 public class Exercise {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private String name;
@@ -22,6 +24,11 @@ public class Exercise {
     private int reps;
     @Column
     private int weight;
+
+    @ManyToOne
+    @JoinColumn
+    @JsonBackReference
+    private Workout workout;
 
 
 

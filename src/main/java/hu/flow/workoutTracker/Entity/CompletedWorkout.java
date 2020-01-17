@@ -1,6 +1,7 @@
 package hu.flow.workoutTracker.Entity;
 
 import lombok.Data;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,6 +20,13 @@ public class CompletedWorkout{
     private LocalDate createdAt;
 
     @ManyToOne
+    @JoinColumn
+    @JsonIgnore
     private Workout workout;
+
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnore
+    private User user;
 
 }
