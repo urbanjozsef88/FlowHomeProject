@@ -1,5 +1,7 @@
 package hu.flow.workoutTracker.Service;
 
+import hu.flow.workoutTracker.Entity.DTO.UserRequestDTO;
+import hu.flow.workoutTracker.Entity.DTO.UserResponseDTO;
 import hu.flow.workoutTracker.Entity.User;
 import hu.flow.workoutTracker.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +18,16 @@ public class UserService {
     private UserRepository userRepository;
 
 
-    public User getUser(String email, String password){
-        if(userRepository.findByEmail(email) != null){
-        User u = userRepository.findByEmail(email);
-        if(BCrypt.checkpw(password, u.getPassword())){
-            return u;
+    public UserResponseDTO getUser(UserRequestDTO userRequestDTO){
+        if(userRepository.findByEmail(userRequestDTO.getEmail()) != null){
+        User u = userRepository.findByEmail(userRequestDTO.getEmail());
+        if(BCrypt.checkpw(userRequestDTO.getPassword(), u.getPassword())){
+            UserResponseDTO uDTO = new UserResponseDTO();
+            uDTO.setEmail(u.getEmail());
+            uDTO.setFirstName(u.getFirstName());
+            uDTO.setLastName(u.getLastName());
+            uDTO.setId(u.getId());
+            return uDTO;
         } else{
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }

@@ -1,6 +1,7 @@
 package hu.flow.workoutTracker.Controller;
 
 import hu.flow.workoutTracker.Entity.CompletedWorkout;
+import hu.flow.workoutTracker.Entity.DTO.CompletedWorkoutDTO;
 import hu.flow.workoutTracker.Service.WorkoutHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +28,12 @@ public class WorkoutHistoryController {
 
     @GetMapping("/user/{userId}")
     public List<CompletedWorkout> getAllWorkoutByUser(@PathVariable int userId){
-        return workoutHistoryService.getComletedWorkoutsByUser(userId);
+        return workoutHistoryService.getCompletedWorkoutsByUser(userId);
     }
 
     @PostMapping
-    public void createWorkout(@RequestBody CompletedWorkout completedWorkout){
-        workoutHistoryService.createWorkout(completedWorkout);
+    public void createCompletedWorkout(@RequestBody CompletedWorkoutDTO dto) {
+        workoutHistoryService.createCompletedWorkout(dto);
     }
 
 

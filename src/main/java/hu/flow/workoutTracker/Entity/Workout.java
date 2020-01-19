@@ -2,6 +2,7 @@ package hu.flow.workoutTracker.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Builder;
 import lombok.Data;
 import net.minidev.json.annotate.JsonIgnore;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
 @Table
 public class Workout {
 
@@ -22,6 +24,13 @@ public class Workout {
     @Column
     private LocalDate createdAt;
 
+    @Column
+    private int totalSets;
+    @Column
+    private int totalReps;
+    @Column
+    private double totalWeightMoved;
+
 
     @JsonBackReference
     @ManyToOne
@@ -32,10 +41,6 @@ public class Workout {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "workout")
     @JsonManagedReference
     private List<Exercise> exercises;
-
-
-
-
 
 
 

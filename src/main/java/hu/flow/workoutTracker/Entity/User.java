@@ -29,13 +29,5 @@ public class User {
     private String password;
 
 
-/*    @OneToMany(mappedBy = "user")
-    @JsonManagedReference
-    private List<Workout> workouts;
-
-    @OneToMany(mappedBy = "user")
-    @JsonManagedReference
-    private List<CompletedWorkout> completedWorkouts;*/
-
 
 }

@@ -1,5 +1,7 @@
 package hu.flow.workoutTracker.Controller;
 
+import hu.flow.workoutTracker.Entity.DTO.UserRequestDTO;
+import hu.flow.workoutTracker.Entity.DTO.UserResponseDTO;
 import hu.flow.workoutTracker.Entity.User;
 import hu.flow.workoutTracker.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,8 @@ public class UserController {
 
 
     @GetMapping
-    public User getUser(@RequestParam String email, String password){
-        return userService.getUser(email, password);
+    public UserResponseDTO getUser(@RequestBody UserRequestDTO userREquestDTO){
+        return userService.getUser(userREquestDTO);
     }
 
     @PostMapping

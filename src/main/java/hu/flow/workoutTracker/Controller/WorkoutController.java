@@ -1,5 +1,6 @@
 package hu.flow.workoutTracker.Controller;
 
+import hu.flow.workoutTracker.Entity.DTO.WorkoutRequestDTO;
 import hu.flow.workoutTracker.Entity.Workout;
 import hu.flow.workoutTracker.Service.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,8 @@ public class WorkoutController {
 
 
     @PostMapping
-    public void createWorkout(@RequestBody Workout workout){
-        workoutService.createWorkout(workout);
+    public void createWorkout(@RequestBody WorkoutRequestDTO workoutRequestDTO){
+        workoutService.createWorkout(workoutRequestDTO);
     }
 
     @PutMapping()

@@ -34,8 +34,10 @@ public class ExerciseService {
 
 
     public List<Exercise> getAllExerciseByWorkout(int id) {
-        return exerciseRepository.getAllExerciseByWorkout(id);
-
+        if(workoutRepository.findById(id).isPresent()) {
+            return exerciseRepository.getAllExerciseByWorkout(id);
+        }
+        else{throw new ResponseStatusException(HttpStatus.NOT_FOUND);}
     }
 
     public void addExercise(Exercise exercise) {

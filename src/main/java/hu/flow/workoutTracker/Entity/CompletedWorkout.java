@@ -1,11 +1,11 @@
 package hu.flow.workoutTracker.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table
@@ -24,6 +24,7 @@ public class CompletedWorkout{
     @JsonIgnore
     private Workout workout;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn
     @JsonIgnore

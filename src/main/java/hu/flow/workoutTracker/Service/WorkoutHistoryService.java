@@ -1,10 +1,12 @@
 package hu.flow.workoutTracker.Service;
 
 import hu.flow.workoutTracker.Entity.CompletedWorkout;
+import hu.flow.workoutTracker.Entity.DTO.CompletedWorkoutDTO;
 import hu.flow.workoutTracker.Entity.Workout;
 import hu.flow.workoutTracker.Repository.UserRepository;
 import hu.flow.workoutTracker.Repository.WorkoutHistoryRepository;
 import hu.flow.workoutTracker.Repository.WorkoutRepository;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,9 @@ public class WorkoutHistoryService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private WorkoutRepository workoutRepository;
+
     public CompletedWorkout getCompletedWorkoutById(int id){
         return workoutHistoryRepository.findById(id)
                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -32,12 +37,18 @@ public class WorkoutHistoryService {
         return workoutHistoryRepository.findAll();
     }
 
-    public void createWorkout(CompletedWorkout completedWorkout){  //TODO: refactor
-        completedWorkout.setCreatedAt(LocalDate.now());
-        workoutHistoryRepository.save(completedWorkout);
+    public void createCompletedWorkout(CompletedWorkoutDTO completedWorkoutDTO){
+        if(userRepository.findById(completedWorkoutDTO.getUserId()).isPresent()
+           && workoutRepository.findById(completedWorkoutDTO.getWorkoutId()).isPresent()){
+        CompletedWorkout fromDTO = new CompletedWorkout();
+        fromDTO.setCreatedAt(LocalDate.now());
+        fromDTO.setUser(userRepository.findById(completedWorkoutDTO.getUserId()).get());
+        fromDTO.setWorkout(workoutRepository.findById(completedWorkoutDTO.getWorkoutId()).get());
+        workoutHistoryRepository.save(fromDTO);}
+        else{throw new ResponseStatusException(HttpStatus.BAD_REQUEST);}
     }
 
-    public List<CompletedWorkout> getComletedWorkoutsByUser(int userId) {
+    public List<CompletedWorkout> getCompletedWorkoutsByUser(int userId) {
         if(userRepository.findById(userId).isPresent()){
         return workoutHistoryRepository.getAllWorkoutByUser(userId);
         } else{ throw new ResponseStatusException(HttpStatus.NOT_FOUND);}

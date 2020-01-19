@@ -1,9 +1,12 @@
 package hu.flow.workoutTracker.Service;
 
+import hu.flow.workoutTracker.Entity.DTO.WorkoutRequestDTO;
+import hu.flow.workoutTracker.Entity.Exercise;
 import hu.flow.workoutTracker.Entity.Workout;
 import hu.flow.workoutTracker.Repository.ExerciseRepository;
 import hu.flow.workoutTracker.Repository.UserRepository;
 import hu.flow.workoutTracker.Repository.WorkoutRepository;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -40,16 +43,40 @@ public class WorkoutService {
         return workoutRepository.findAll();
     }
 
-    public void createWorkout(Workout workout){
-        ; // Save the exercises to exercise repo
-        if(workoutRepository.findByName(workout.getName()) != null
-           && userRepository.findById(workout.getUser().getId()).isPresent()){
+    public void createWorkout(WorkoutRequestDTO workoutRequestDTO){
+
+
+        if(workoutRepository.findByName(workoutRequestDTO.getName()) != null
+           && userRepository.findById(workoutRequestDTO.getUserId()).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-        workout.getExercises().forEach(exercise -> exercise.setWorkout(workout));
+        } else{
+            Workout workout = Workout.builder()
+                    .name(workoutRequestDTO.getName())
+                    .user(userRepository.findById(workoutRequestDTO.getUserId()).get())
+                    .exercises(workoutRequestDTO.getExercises())
+                    .build();
+
+  //     workout.getExercises().forEach(exercise -> exercise.setWorkout(workout));
         workout.setCreatedAt(LocalDate.now());
-        workout.setUser(userRepository.findById(workout.getUser().getId()).get());
-        workoutRepository.save(workout);
+  //      workout.setUser(userRepository.findById(workout.getUser().getId()).get());
+        int countreps = workout.getExercises().stream()
+                .filter(e -> e != null && e.getReps() != 0)
+                .mapToInt(Exercise::getReps)
+                .sum();
+        workout.setTotalReps(countreps);
+        int countsets = workout.getExercises().stream()
+                .filter(e -> e != null && e.getReps() != 0)
+                .mapToInt(Exercise::getSets)
+                .sum();
+        workout.setTotalSets(countsets);
+
+        workout.setTotalWeightMoved((workout.getExercises().stream()
+                .filter(e -> e != null && e.getWeight() != 0)
+                .mapToDouble(Exercise::getWeight)
+                .sum()) * countsets * countreps);
+
+        workoutRepository.save(workout);}
+
     }
 
     public void updateWorkout(Workout workout){
