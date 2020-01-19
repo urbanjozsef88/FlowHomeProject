@@ -3,15 +3,12 @@ package hu.flow.workoutTracker.Controller;
 import hu.flow.workoutTracker.Entity.Exercise;
 import hu.flow.workoutTracker.Service.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/user/exercise")
+@RequestMapping("/api/exercise")
 public class ExerciseController {
 
     @Autowired
@@ -30,6 +27,17 @@ public class ExerciseController {
     @GetMapping("/{workoutId}")
     public List<Exercise> getAllExerciseByWorkout(@PathVariable int workoutId){
         return exerciseService.getAllExerciseByWorkout(workoutId);
+    }
+
+
+    @PostMapping
+    public void createExercise(@RequestBody Exercise exercise){
+        exerciseService.addExercise(exercise);
+    }
+
+    @PutMapping
+    public void updateExcercise(@RequestBody Exercise exercise){
+        exerciseService.updateExercise(exercise);
     }
 
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/user/workout")
+@RequestMapping("/api/workout")
 public class WorkoutController {
 
     @Autowired
@@ -19,14 +19,19 @@ public class WorkoutController {
         return workoutService.getWorkoutById(id);
     }
 
-    @GetMapping("/{name}")
+/*    @GetMapping("/{name}")
     public Workout getWorkoutByName(@PathVariable String name){
         return workoutService.getWorkoutByName(name);
-    }
+    }*/
 
-    @GetMapping
+    @GetMapping                                   // There will be no need for all workouts, just by users
     public List<Workout> getAllWorkout(){
-        return workoutService.getAllWorkouts();
+        return workoutService.getAllWorkouts();}
+
+
+    @GetMapping("/user/{userId}")
+    public List<Workout> getAllWorkoutByUser(@PathVariable int userId){
+        return workoutService.getAllWorkoutByUser(userId);
     }
 
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/user/workouthistory")
+@RequestMapping("/api/workouthistory")
 public class WorkoutHistoryController {
 
 
@@ -17,15 +17,18 @@ public class WorkoutHistoryController {
 
     @GetMapping("/{id}")
     public CompletedWorkout getWorkoutById(@PathVariable int id){
-        return workoutHistoryService.getWorkoutById(id);
+        return workoutHistoryService.getCompletedWorkoutById(id);
     }
-
 
     @GetMapping
     public List<CompletedWorkout> getAllWorkout(){
-        return workoutHistoryService.getAllWorkouts();
+        return workoutHistoryService.getAllCompletedWorkouts();
     }
 
+    @GetMapping("/user/{userId}")
+    public List<CompletedWorkout> getAllWorkoutByUser(@PathVariable int userId){
+        return workoutHistoryService.getComletedWorkoutsByUser(userId);
+    }
 
     @PostMapping
     public void createWorkout(@RequestBody CompletedWorkout completedWorkout){

@@ -26,7 +26,6 @@ public class Workout {
     @JsonBackReference
     @ManyToOne
     @JoinColumn
-    @JsonIgnore
     private User user;
 
 

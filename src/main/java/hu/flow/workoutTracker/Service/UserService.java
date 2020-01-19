@@ -3,8 +3,10 @@ package hu.flow.workoutTracker.Service;
 import hu.flow.workoutTracker.Entity.User;
 import hu.flow.workoutTracker.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -20,10 +22,10 @@ public class UserService {
         if(BCrypt.checkpw(password, u.getPassword())){
             return u;
         } else{
-            System.err.println("Wrong password");
-        return null;}
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
         }else{
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -34,7 +36,7 @@ public class UserService {
             user.setPassword(psw);
             userRepository.save(user);}
        else{
-          System.err.println("Error: missing or incorrect data");
+           throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -45,7 +47,7 @@ public class UserService {
             user.setPassword(psw);
             userRepository.save(user);}
         else{
-            System.err.println("Error: missing or incorrect data");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
     }
 
