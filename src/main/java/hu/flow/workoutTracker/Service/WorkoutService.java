@@ -9,6 +9,7 @@ import hu.flow.workoutTracker.Repository.WorkoutRepository;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -43,16 +44,15 @@ public class WorkoutService {
         return workoutRepository.findAll();
     }
 
-    public void createWorkout(WorkoutRequestDTO workoutRequestDTO){
-
+    public ResponseEntity<Void> createWorkout(int userId, WorkoutRequestDTO workoutRequestDTO){
 
         if(workoutRepository.findByName(workoutRequestDTO.getName()) != null
-           && userRepository.findById(workoutRequestDTO.getUserId()).isPresent()){
+           && !userRepository.findById(userId).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         } else{
             Workout workout = Workout.builder()
                     .name(workoutRequestDTO.getName())
-                    .user(userRepository.findById(workoutRequestDTO.getUserId()).get())
+                    .user(userRepository.findById(userId).get())
                     .exercises(workoutRequestDTO.getExercises())
                     .build();
 
@@ -75,7 +75,8 @@ public class WorkoutService {
                 .mapToDouble(Exercise::getWeight)
                 .sum()) * countsets * countreps);
 
-        workoutRepository.save(workout);}
+        workoutRepository.save(workout);
+            return new ResponseEntity(HttpStatus.CREATED);}
 
     }
 
@@ -85,7 +86,7 @@ public class WorkoutService {
     }
 
     public void deleteWorkout(int id){
-        if(userRepository.findById(id).isPresent()){
+        if(workoutRepository.findById(id).isPresent()){
         workoutRepository.deleteById(id);
     } else{throw new ResponseStatusException(HttpStatus.NOT_FOUND);}}
 

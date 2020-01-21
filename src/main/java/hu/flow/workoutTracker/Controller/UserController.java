@@ -5,6 +5,7 @@ import hu.flow.workoutTracker.Entity.DTO.UserResponseDTO;
 import hu.flow.workoutTracker.Entity.User;
 import hu.flow.workoutTracker.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,8 @@ public class UserController {
     }
 
     @PostMapping
-    public void createUser(@RequestBody User user){
-        userService.createUser(user);
+    public ResponseEntity<Void> createUser(@RequestBody User user){
+        return userService.createUser(user);
     }
 
     @PutMapping

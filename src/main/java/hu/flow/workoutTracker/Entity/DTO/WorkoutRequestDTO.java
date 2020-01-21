@@ -15,7 +15,6 @@ import java.util.List;
 public class WorkoutRequestDTO {
 
     private String name;
-    private int userId;
     private List<Exercise> exercises;
 
 }

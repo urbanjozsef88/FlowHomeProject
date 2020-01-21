@@ -6,6 +6,7 @@ import hu.flow.workoutTracker.Entity.User;
 import hu.flow.workoutTracker.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -36,12 +37,13 @@ public class UserService {
         }
     }
 
-    public void createUser(User user){
+    public ResponseEntity<Void> createUser(User user){
        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
        if(user.getEmail().matches(regex) && user.getPassword() != null && !"".equals(user.getPassword()) ){
             String psw = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
             user.setPassword(psw);
-            userRepository.save(user);}
+            userRepository.save(user);
+           return new ResponseEntity(HttpStatus.CREATED);}
        else{
            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }

@@ -2,8 +2,10 @@ package hu.flow.workoutTracker.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
@@ -14,6 +16,8 @@ import java.util.List;
 @Entity
 @Builder
 @Table
+@NoArgsConstructor
+@AllArgsConstructor
 public class Workout {
 
     @Id

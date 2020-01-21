@@ -4,6 +4,7 @@ import hu.flow.workoutTracker.Entity.DTO.WorkoutRequestDTO;
 import hu.flow.workoutTracker.Entity.Workout;
 import hu.flow.workoutTracker.Service.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,25 +21,21 @@ public class WorkoutController {
         return workoutService.getWorkoutById(id);
     }
 
-/*    @GetMapping("/{name}")
-    public Workout getWorkoutByName(@PathVariable String name){
-        return workoutService.getWorkoutByName(name);
-    }*/
 
     @GetMapping                                   // There will be no need for all workouts, just by users
     public List<Workout> getAllWorkout(){
         return workoutService.getAllWorkouts();}
 
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/currentuser/{userId}")
     public List<Workout> getAllWorkoutByUser(@PathVariable int userId){
         return workoutService.getAllWorkoutByUser(userId);
     }
 
 
-    @PostMapping
-    public void createWorkout(@RequestBody WorkoutRequestDTO workoutRequestDTO){
-        workoutService.createWorkout(workoutRequestDTO);
+    @PostMapping("/currentuser/{userId}")
+    public ResponseEntity<Void> createWorkout(@PathVariable int userId, @RequestBody WorkoutRequestDTO workoutRequestDTO){
+       return workoutService.createWorkout(userId, workoutRequestDTO);
     }
 
     @PutMapping()

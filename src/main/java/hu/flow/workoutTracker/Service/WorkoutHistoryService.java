@@ -9,6 +9,7 @@ import hu.flow.workoutTracker.Repository.WorkoutRepository;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -37,14 +38,15 @@ public class WorkoutHistoryService {
         return workoutHistoryRepository.findAll();
     }
 
-    public void createCompletedWorkout(CompletedWorkoutDTO completedWorkoutDTO){
-        if(userRepository.findById(completedWorkoutDTO.getUserId()).isPresent()
-           && workoutRepository.findById(completedWorkoutDTO.getWorkoutId()).isPresent()){
+    public ResponseEntity<Void> createCompletedWorkout(int userId, int workoutId){
+        if(userRepository.findById(userId).isPresent()
+           && workoutRepository.findById(workoutId).isPresent()){
         CompletedWorkout fromDTO = new CompletedWorkout();
         fromDTO.setCreatedAt(LocalDate.now());
-        fromDTO.setUser(userRepository.findById(completedWorkoutDTO.getUserId()).get());
-        fromDTO.setWorkout(workoutRepository.findById(completedWorkoutDTO.getWorkoutId()).get());
-        workoutHistoryRepository.save(fromDTO);}
+        fromDTO.setUser(userRepository.findById(userId).get());
+        fromDTO.setWorkout(workoutRepository.findById(workoutId).get());
+        workoutHistoryRepository.save(fromDTO);
+            return new ResponseEntity(HttpStatus.CREATED);}
         else{throw new ResponseStatusException(HttpStatus.BAD_REQUEST);}
     }
 
