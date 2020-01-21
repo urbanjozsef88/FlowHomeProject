@@ -1,7 +1,7 @@
 package hu.flow.workoutTracker.Controller;
 
-import hu.flow.workoutTracker.Entity.DTO.WorkoutRequestDTO;
-import hu.flow.workoutTracker.Entity.Workout;
+import hu.flow.workoutTracker.Model.DTO.WorkoutRequestDTO;
+import hu.flow.workoutTracker.Model.Workout;
 import hu.flow.workoutTracker.Service.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

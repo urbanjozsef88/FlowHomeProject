@@ -1,12 +1,11 @@
 package hu.flow.workoutTracker.Service;
 
-import hu.flow.workoutTracker.Entity.DTO.WorkoutRequestDTO;
-import hu.flow.workoutTracker.Entity.Exercise;
-import hu.flow.workoutTracker.Entity.Workout;
+import hu.flow.workoutTracker.Model.DTO.WorkoutRequestDTO;
+import hu.flow.workoutTracker.Model.Exercise;
+import hu.flow.workoutTracker.Model.Workout;
 import hu.flow.workoutTracker.Repository.ExerciseRepository;
 import hu.flow.workoutTracker.Repository.UserRepository;
 import hu.flow.workoutTracker.Repository.WorkoutRepository;
-import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WorkoutService {
@@ -33,7 +33,7 @@ public class WorkoutService {
     public Workout getWorkoutById(int id){
          if(workoutRepository.findById(id).isPresent()){
             return workoutRepository.findById(id).get();}
-         else{throw new ResponseStatusException(HttpStatus.BAD_REQUEST);}
+         else{throw new ResponseStatusException(HttpStatus.NOT_FOUND);}
     }
 
 /*    public Workout getWorkoutByName(String name){
@@ -44,8 +44,13 @@ public class WorkoutService {
         return workoutRepository.findAll();
     }
 
-    public ResponseEntity<Void> createWorkout(int userId, WorkoutRequestDTO workoutRequestDTO){
+    public List<Workout> getAllWorkoutByUser(int userId) {
+        if(userRepository.findById(userId).isPresent()){
+            return workoutRepository.getAllWorkoutByWorkout(userId);}
+        else{ throw new ResponseStatusException(HttpStatus.NOT_FOUND);}
+    }
 
+    public ResponseEntity<Void> createWorkout(int userId, WorkoutRequestDTO workoutRequestDTO){
         if(workoutRepository.findByName(workoutRequestDTO.getName()) != null
            && !userRepository.findById(userId).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -55,11 +60,11 @@ public class WorkoutService {
                     .user(userRepository.findById(userId).get())
                     .exercises(workoutRequestDTO.getExercises())
                     .build();
-
-  //     workout.getExercises().forEach(exercise -> exercise.setWorkout(workout));
+        workout.getExercises().forEach(exercise -> exercise.setWorkout(workout));
         workout.setCreatedAt(LocalDate.now());
-  //      workout.setUser(userRepository.findById(workout.getUser().getId()).get());
-        int countreps = workout.getExercises().stream()
+
+        updateTotalDetails(workout);   //The code below has been moved to a static method
+        /*int countreps = workout.getExercises().stream()
                 .filter(e -> e != null && e.getReps() != 0)
                 .mapToInt(Exercise::getReps)
                 .sum();
@@ -69,11 +74,10 @@ public class WorkoutService {
                 .mapToInt(Exercise::getSets)
                 .sum();
         workout.setTotalSets(countsets);
-
         workout.setTotalWeightMoved((workout.getExercises().stream()
                 .filter(e -> e != null && e.getWeight() != 0)
-                .mapToDouble(Exercise::getWeight)
-                .sum()) * countsets * countreps);
+                .map(exercise -> exercise.getReps()*exercise.getSets()*exercise.getWeight())
+                .mapToInt(n -> (int)n).sum()));*/
 
         workoutRepository.save(workout);
             return new ResponseEntity(HttpStatus.CREATED);}
@@ -87,13 +91,29 @@ public class WorkoutService {
 
     public void deleteWorkout(int id){
         if(workoutRepository.findById(id).isPresent()){
-        workoutRepository.deleteById(id);
+           workoutRepository.deleteById(id);
     } else{throw new ResponseStatusException(HttpStatus.NOT_FOUND);}}
 
 
-    public List<Workout> getAllWorkoutByUser(int userId) {
-        if(userRepository.findById(userId).isPresent()){
-        return workoutRepository.getAllWorkoutByWorkout(userId);}
-        else{ throw new ResponseStatusException(HttpStatus.NOT_FOUND);}
+    public static Workout updateTotalDetails(Workout workout){
+
+        int countreps = workout.getExercises().stream()
+                .filter(e -> e != null && e.getReps() != 0)
+                .mapToInt(Exercise::getReps)
+                .sum();
+        workout.setTotalReps(countreps);
+        int countsets = workout.getExercises().stream()
+                .filter(e -> e != null && e.getReps() != 0)
+                .mapToInt(Exercise::getSets)
+                .sum();
+        workout.setTotalSets(countsets);
+        workout.setTotalWeightMoved((workout.getExercises().stream()
+                .filter(e -> e != null && e.getWeight() != 0)
+                .map(exercise -> exercise.getReps()*exercise.getSets()*exercise.getWeight())
+                .mapToInt(n -> (int)n).sum()));
+
+        return workout;
     }
+
+
 }

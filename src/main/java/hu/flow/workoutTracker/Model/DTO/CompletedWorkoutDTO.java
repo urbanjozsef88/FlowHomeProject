@@ -1,4 +1,4 @@
-package hu.flow.workoutTracker.Entity.DTO;
+package hu.flow.workoutTracker.Model.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,9 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class UserRequestDTO {
+public class CompletedWorkoutDTO {
 
-    private String email;
-    private String password;
+    private int userId;
+    private int workoutId;
+
 }

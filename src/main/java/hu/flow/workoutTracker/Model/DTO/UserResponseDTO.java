@@ -1,11 +1,9 @@
-package hu.flow.workoutTracker.Entity.DTO;
+package hu.flow.workoutTracker.Model.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import javax.persistence.Column;
 
 @Data
 @Component

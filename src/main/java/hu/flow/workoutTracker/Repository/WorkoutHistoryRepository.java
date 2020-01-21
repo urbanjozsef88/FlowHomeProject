@@ -1,6 +1,6 @@
 package hu.flow.workoutTracker.Repository;
 
-import hu.flow.workoutTracker.Entity.CompletedWorkout;
+import hu.flow.workoutTracker.Model.CompletedWorkout;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

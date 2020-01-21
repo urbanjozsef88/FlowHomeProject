@@ -1,13 +1,11 @@
-package hu.flow.workoutTracker.Entity;
+package hu.flow.workoutTracker.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
-import java.lang.reflect.Type;
 
 @Data
 @Entity
@@ -41,8 +39,12 @@ public class Exercise {
     }
 
 
-
-
-
-
+    @Override
+    public String toString() {
+        return  "Exercise:'" + name + '\'' +
+                ", type:" + type +
+                ", sets:" + sets +
+                ", reps:" + reps +
+                ", weight:" + weight + "; ";
+    }
 }

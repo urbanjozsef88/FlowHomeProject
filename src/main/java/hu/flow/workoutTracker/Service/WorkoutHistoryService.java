@@ -1,12 +1,11 @@
 package hu.flow.workoutTracker.Service;
 
-import hu.flow.workoutTracker.Entity.CompletedWorkout;
-import hu.flow.workoutTracker.Entity.DTO.CompletedWorkoutDTO;
-import hu.flow.workoutTracker.Entity.Workout;
+import hu.flow.workoutTracker.Model.CompletedWorkout;
+import hu.flow.workoutTracker.Model.Exercise;
+import hu.flow.workoutTracker.Repository.ExerciseRepository;
 import hu.flow.workoutTracker.Repository.UserRepository;
 import hu.flow.workoutTracker.Repository.WorkoutHistoryRepository;
 import hu.flow.workoutTracker.Repository.WorkoutRepository;
-import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WorkoutHistoryService {
@@ -28,6 +28,10 @@ public class WorkoutHistoryService {
 
     @Autowired
     private WorkoutRepository workoutRepository;
+
+    @Autowired
+    private ExerciseRepository exerciseRepository;
+
 
     public CompletedWorkout getCompletedWorkoutById(int id){
         return workoutHistoryRepository.findById(id)
@@ -44,8 +48,16 @@ public class WorkoutHistoryService {
         CompletedWorkout fromDTO = new CompletedWorkout();
         fromDTO.setCreatedAt(LocalDate.now());
         fromDTO.setUser(userRepository.findById(userId).get());
-        fromDTO.setWorkout(workoutRepository.findById(workoutId).get());
+     //   fromDTO.setWorkout(workoutRepository.findById(workoutId).get());
+        fromDTO.setWorkoutDetails(workoutRepository
+                .findById(workoutId).get().toString());
+        fromDTO.setWorkoutContent(exerciseRepository.getAllExerciseByWorkout(workoutId)
+                .stream()
+                .map(Exercise::toString)
+                .collect(Collectors.joining()));
         workoutHistoryRepository.save(fromDTO);
+
+
             return new ResponseEntity(HttpStatus.CREATED);}
         else{throw new ResponseStatusException(HttpStatus.BAD_REQUEST);}
     }

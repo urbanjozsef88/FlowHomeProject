@@ -1,6 +1,6 @@
-package hu.flow.workoutTracker.Entity.DTO;
+package hu.flow.workoutTracker.Model.DTO;
 
-import hu.flow.workoutTracker.Entity.Exercise;
+import hu.flow.workoutTracker.Model.Exercise;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

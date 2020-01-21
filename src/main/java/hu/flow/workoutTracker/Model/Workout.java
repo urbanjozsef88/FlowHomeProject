@@ -1,4 +1,4 @@
-package hu.flow.workoutTracker.Entity;
+package hu.flow.workoutTracker.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -46,6 +45,11 @@ public class Workout {
     @JsonManagedReference
     private List<Exercise> exercises;
 
-
-
+    @Override
+    public String toString() {
+        return  "name:'" + name + '\'' +
+                ", Total sets:" + totalSets +
+                ", Total reps:" + totalReps +
+                ", Total Weight Moved:" + totalWeightMoved;
+    }
 }

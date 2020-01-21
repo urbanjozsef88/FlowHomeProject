@@ -1,4 +1,4 @@
-package hu.flow.workoutTracker.Entity;
+package hu.flow.workoutTracker.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
@@ -19,15 +19,22 @@ public class CompletedWorkout{
     @Column
     private LocalDate createdAt;
 
-    @ManyToOne
+    @Column
+    private String workoutDetails;
+
+    @Column
+    private String workoutContent;
+
+/*    @ManyToOne
     @JoinColumn
     @JsonIgnore
-    private Workout workout;
+    private Workout workout;*/
 
     @JsonBackReference
     @ManyToOne
     @JoinColumn
     @JsonIgnore
     private User user;
+
 
 }

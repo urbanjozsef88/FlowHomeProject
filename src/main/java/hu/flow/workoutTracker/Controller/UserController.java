@@ -1,12 +1,11 @@
 package hu.flow.workoutTracker.Controller;
 
-import hu.flow.workoutTracker.Entity.DTO.UserRequestDTO;
-import hu.flow.workoutTracker.Entity.DTO.UserResponseDTO;
-import hu.flow.workoutTracker.Entity.User;
+import hu.flow.workoutTracker.Model.DTO.UserRequestDTO;
+import hu.flow.workoutTracker.Model.DTO.UserResponseDTO;
+import hu.flow.workoutTracker.Model.User;
 import hu.flow.workoutTracker.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
