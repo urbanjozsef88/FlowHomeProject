@@ -20,10 +20,10 @@ public class ExerciseController {
         return exerciseService.getAllExercise();
     }
 
-/*    @GetMapping("/{id}")
+    @GetMapping("/{id}")
     public Exercise getExerciseById(@PathVariable int id){
         return exerciseService.getExerciseById(id);
-    }*/
+    }
 
     @GetMapping("/byworkout/{workoutId}")
     public List<Exercise> getAllExerciseByWorkout(@PathVariable int workoutId){
@@ -32,8 +32,8 @@ public class ExerciseController {
 
 
     @PostMapping
-    public void createExercise(@RequestBody Exercise exercise){
-        exerciseService.addExercise(exercise);
+    public ResponseEntity<Void> createExercise(@RequestBody Exercise exercise){
+       return exerciseService.addExercise(exercise);
     }
 
     @PutMapping("/{id}")
@@ -45,7 +45,6 @@ public class ExerciseController {
     public ResponseEntity<Void> deleteExercise(@PathVariable int id){
         return exerciseService.deleteExercise(id);
     }
-
 
 
 }

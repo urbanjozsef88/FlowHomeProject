@@ -40,21 +40,24 @@ public class ExerciseService {
     public List<Exercise> getAllExerciseByWorkout(int id) {
         if(workoutRepository.findById(id).isPresent()) {
             return exerciseRepository.getAllExerciseByWorkout(id);
+        } else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        else{throw new ResponseStatusException(HttpStatus.NOT_FOUND);}
     }
 
-    public void addExercise(Exercise exercise) {
+    public ResponseEntity<Void> addExercise(Exercise exercise) {
         if(workoutRepository.findById(exercise.getWorkout().getId()).isPresent()){
             exercise.setWorkout(workoutRepository.findById(exercise.getWorkout().getId()).get());
-        exerciseRepository.save(exercise);}
+        exerciseRepository.save(exercise);
+        return new ResponseEntity(HttpStatus.CREATED);}
         else{throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
 
     public ResponseEntity<Void> updateExercise(int id, Exercise exercise) {
-        exerciseRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        exerciseRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         Exercise exer = exerciseRepository.findById(id).get();
         exer.setName(exercise.getName());
         exer.setReps(exercise.getReps());
@@ -82,12 +85,9 @@ public class ExerciseService {
             WorkoutService.updateTotalDetails(toUpdate);
             workoutRepository.save(toUpdate);
 
-
             return ResponseEntity.ok().build(); }
         else{ return ResponseEntity.notFound().build();}
     }
-
-
 
 
 }
