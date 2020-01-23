@@ -15,7 +15,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     @GetMapping
     public UserResponseDTO getUser(@RequestBody UserRequestDTO userREquestDTO){
         return userService.getUser(userREquestDTO);
@@ -27,13 +26,13 @@ public class UserController {
     }
 
     @PutMapping
-    public void updateUser(@RequestBody User user){
-        userService.updateUser(user);
+    public ResponseEntity<Void> updateUser(@RequestBody User user){
+        return userService.updateUser(user);
     }
 
-    @DeleteMapping
-    public void deleteUser(@PathVariable int id){
-        userService.deleteUser(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable int id){
+        return userService.deleteUser(id);
     }
 
 }

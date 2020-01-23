@@ -4,6 +4,7 @@ import hu.flow.workoutTracker.Model.DTO.UserRequestDTO;
 import hu.flow.workoutTracker.Model.DTO.UserResponseDTO;
 import hu.flow.workoutTracker.Model.User;
 import hu.flow.workoutTracker.Repository.UserRepository;
+import hu.flow.workoutTracker.Repository.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private WorkoutRepository workoutRepository;
 
 
     public UserResponseDTO getUser(UserRequestDTO userRequestDTO){
@@ -39,6 +43,8 @@ public class UserService {
 
     public ResponseEntity<Void> createUser(User user){
        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+       if(userRepository.findByEmail(user.getEmail()) != null)
+       { return ResponseEntity.badRequest().build();}
        if(user.getEmail().matches(regex) && user.getPassword() != null && !"".equals(user.getPassword()) ){
             String psw = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
             user.setPassword(psw);
@@ -49,8 +55,10 @@ public class UserService {
         }
     }
 
-    public void updateUser(User user){
+    public ResponseEntity<Void> updateUser(User user){
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        if(userRepository.findByEmail(user.getEmail()) != null)
+        { return ResponseEntity.badRequest().build();}
         if(user.getEmail().matches(regex) && user.getPassword() != null && !"".equals(user.getPassword()) ){
             String psw = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
             user.setPassword(psw);
@@ -58,10 +66,15 @@ public class UserService {
         else{
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
+        return ResponseEntity.ok().build();
     }
 
-    public void deleteUser(int id){
+    public ResponseEntity<Void> deleteUser(int id){
+
+        workoutRepository.getAllWorkoutByUser(id)
+                .forEach(wo -> workoutRepository.deleteById(wo.getId()));
         userRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
 }
