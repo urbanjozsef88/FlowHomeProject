@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface WorkoutHistoryRepository extends JpaRepository<CompletedWorkout, Integer> {
+public interface WorkoutHistoryRepository extends JpaRepository<CompletedWorkout, Long> {
 
     @Query("from CompletedWorkout w where w.user.id = ?1")
-    List<CompletedWorkout> getAllWorkoutByUser(int userId);
+    List<CompletedWorkout> getAllWorkoutByUser(long userId);
 }

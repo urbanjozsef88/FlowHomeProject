@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ExerciseRepository extends JpaRepository<Exercise, Integer> {
+public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 
 
     @Query("from Exercise e where e.workout.id = ?1")
-    List<Exercise> getAllExerciseByWorkout(int id);
+    List<Exercise> getAllExerciseByWorkout(long id);
 }

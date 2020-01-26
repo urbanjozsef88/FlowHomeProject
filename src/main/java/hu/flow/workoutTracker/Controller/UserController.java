@@ -9,29 +9,34 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public UserResponseDTO getUser(@RequestBody UserRequestDTO userREquestDTO){
-        return userService.getUser(userREquestDTO);
+    @GetMapping("/user/{id}")
+    public UserResponseDTO getUserById(@PathVariable long id){
+        return userService.getUserById(id);
     }
 
-    @PostMapping
+    @GetMapping("/user/{username}")
+    public UserResponseDTO getUserByUserName(@PathVariable String username){
+        return userService.getUserByUserName(username);
+    }
+
+    @PostMapping("/register")
     public ResponseEntity<Void> createUser(@RequestBody User user){
         return userService.createUser(user);
     }
 
-    @PutMapping
+    @PutMapping("/user")
     public ResponseEntity<Void> updateUser(@RequestBody User user){
         return userService.updateUser(user);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable int id){
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable long id){
         return userService.deleteUser(id);
     }
 

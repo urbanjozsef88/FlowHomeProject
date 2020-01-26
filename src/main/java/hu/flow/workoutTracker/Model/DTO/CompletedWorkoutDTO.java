@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CompletedWorkoutDTO {
 
-    private int userId;
-    private int workoutId;
+    private long userId;
+    private long workoutId;
 
 }

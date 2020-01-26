@@ -33,7 +33,7 @@ public class WorkoutHistoryService {
     private ExerciseRepository exerciseRepository;
 
 
-    public CompletedWorkout getCompletedWorkoutById(int id){
+    public CompletedWorkout getCompletedWorkoutById(long id){
         return workoutHistoryRepository.findById(id)
                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
@@ -42,7 +42,7 @@ public class WorkoutHistoryService {
         return workoutHistoryRepository.findAll();
     }
 
-    public ResponseEntity<Void> createCompletedWorkout(int userId, int workoutId){
+    public ResponseEntity<Void> createCompletedWorkout(long userId, long workoutId){
         if(userRepository.findById(userId).isPresent()
            && workoutRepository.findById(workoutId).isPresent()){
         CompletedWorkout fromDTO = new CompletedWorkout();
@@ -62,7 +62,7 @@ public class WorkoutHistoryService {
         else{throw new ResponseStatusException(HttpStatus.BAD_REQUEST);}
     }
 
-    public List<CompletedWorkout> getCompletedWorkoutsByUser(int userId) {
+    public List<CompletedWorkout> getCompletedWorkoutsByUser(long userId) {
         if(userRepository.findById(userId).isPresent()){
         return workoutHistoryRepository.getAllWorkoutByUser(userId);
         } else{ throw new ResponseStatusException(HttpStatus.NOT_FOUND);}

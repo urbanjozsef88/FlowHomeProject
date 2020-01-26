@@ -30,14 +30,14 @@ public class ExerciseService {
 
     }
 
-    public Exercise getExerciseById(int id) {
+    public Exercise getExerciseById(long id) {
         if(exerciseRepository.findById(id).isPresent()){
         return exerciseRepository.findById(id).get();}
         else {throw new ResponseStatusException(HttpStatus.NOT_FOUND);}
     }
 
 
-    public List<Exercise> getAllExerciseByWorkout(int id) {
+    public List<Exercise> getAllExerciseByWorkout(long id) {
         if(workoutRepository.findById(id).isPresent()) {
             return exerciseRepository.getAllExerciseByWorkout(id);
         } else{
@@ -55,7 +55,7 @@ public class ExerciseService {
     }
 
 
-    public ResponseEntity<Void> updateExercise(int id, Exercise exercise) {
+    public ResponseEntity<Void> updateExercise(long id, Exercise exercise) {
         exerciseRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         Exercise exer = exerciseRepository.findById(id).get();
@@ -73,9 +73,9 @@ public class ExerciseService {
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<Void> deleteExercise(int id){
+    public ResponseEntity<Void> deleteExercise(long id){
         if(exerciseRepository.findById(id).isPresent()){
-            int tmpId = exerciseRepository
+            long tmpId = exerciseRepository
                     .findById(id)
                     .get().getWorkout()
                     .getId();
