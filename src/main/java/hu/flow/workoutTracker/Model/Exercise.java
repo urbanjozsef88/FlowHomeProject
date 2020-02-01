@@ -16,11 +16,11 @@ public class Exercise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @Column
     private String name;
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private MeasurementType type;
     @Column
     private int sets;
     @Column
@@ -34,17 +34,16 @@ public class Exercise {
     private Workout workout;
 
 
-    public enum Type{
-        CORE, ISOLATION, CARDIO
+    public enum MeasurementType{
+        KG, LB
     }
 
 
     @Override
     public String toString() {
-        return  "Exercise:'" + name + '\'' +
-                ", type:" + type +
-                ", sets:" + sets +
-                ", reps:" + reps +
-                ", weight:" + weight + "; ";
+        return  name  +
+                ": " + sets +
+                " X " + reps +
+                " X " + weight + " " + type +";  ";
     }
 }

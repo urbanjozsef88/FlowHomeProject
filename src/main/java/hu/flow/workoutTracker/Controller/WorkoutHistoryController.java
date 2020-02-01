@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/workouthistory")
+@CrossOrigin("http://localhost:4200")
 public class WorkoutHistoryController {
 
 
@@ -17,7 +18,7 @@ public class WorkoutHistoryController {
     private WorkoutHistoryService workoutHistoryService;
 
     @GetMapping("/{id}")
-    public CompletedWorkout getWorkoutById(@PathVariable int id){
+    public CompletedWorkout getWorkoutById(@PathVariable long id){
         return workoutHistoryService.getCompletedWorkoutById(id);
     }
 
@@ -27,12 +28,12 @@ public class WorkoutHistoryController {
     }
 
     @GetMapping("/currentuser/{userId}")
-    public List<CompletedWorkout> getAllWorkoutByUser(@PathVariable int userId){
+    public List<CompletedWorkout> getAllWorkoutByUser(@PathVariable long userId){
         return workoutHistoryService.getCompletedWorkoutsByUser(userId);
     }
 
     @PostMapping("/currentuser/{userId}/workout/{workoutId}")
-    public ResponseEntity<Void> createCompletedWorkout(@PathVariable int userId, @PathVariable int workoutId) {
+    public ResponseEntity<Void> createCompletedWorkout(@PathVariable long userId, @PathVariable long workoutId) {
        return workoutHistoryService.createCompletedWorkout(userId, workoutId);
     }
 

@@ -1,6 +1,4 @@
 package hu.flow.workoutTracker.Service;
-
-import hu.flow.workoutTracker.Model.DTO.UserRequestDTO;
 import hu.flow.workoutTracker.Model.DTO.UserResponseDTO;
 import hu.flow.workoutTracker.Model.User;
 import hu.flow.workoutTracker.Repository.UserRepository;
@@ -23,8 +21,19 @@ public class UserService {
     private WorkoutRepository workoutRepository;
 
 
-    public UserResponseDTO getUser(UserRequestDTO userRequestDTO){
-        if(userRepository.findByEmail(userRequestDTO.getEmail()) != null){
+    public UserResponseDTO getUser(long userId){
+       if(userRepository.findById(userId).isPresent()){
+           User u = userRepository.findById(userId).get();
+           UserResponseDTO uDTO = new UserResponseDTO();
+           uDTO.setNumberOfWorkouts(workoutRepository.getAllWorkoutByUser(userId).size());
+           uDTO.setEmail(u.getEmail());
+           uDTO.setFirstName(u.getFirstName());
+           uDTO.setLastName(u.getLastName());
+           uDTO.setId(u.getId());
+           return uDTO;
+
+       }
+      /*  if(userRepository.findByEmail(userRequestDTO.getEmail()) != null){
         User u = userRepository.findByEmail(userRequestDTO.getEmail());
         if(BCrypt.checkpw(userRequestDTO.getPassword(), u.getPassword())){
             UserResponseDTO uDTO = new UserResponseDTO();
@@ -35,8 +44,8 @@ public class UserService {
             return uDTO;
         } else{
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
-        }else{
+        }*/
+        else{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
@@ -69,7 +78,7 @@ public class UserService {
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<Void> deleteUser(int id){
+    public ResponseEntity<Void> deleteUser(long id){
 
         workoutRepository.getAllWorkoutByUser(id)
                 .forEach(wo -> workoutRepository.deleteById(wo.getId()));

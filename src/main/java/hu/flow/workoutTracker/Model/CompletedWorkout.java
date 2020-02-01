@@ -14,7 +14,7 @@ public class CompletedWorkout{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
 
     @Column
     private LocalDate createdAt;
@@ -35,6 +35,7 @@ public class CompletedWorkout{
     @JoinColumn
     @JsonIgnore
     private User user;
+
 
 
 }

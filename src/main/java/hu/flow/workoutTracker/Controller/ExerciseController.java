@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/exercise")
+@CrossOrigin("http://localhost:4200")
 public class ExerciseController {
 
     @Autowired
@@ -21,12 +22,12 @@ public class ExerciseController {
     }
 
     @GetMapping("/{id}")
-    public Exercise getExerciseById(@PathVariable int id){
+    public Exercise getExerciseById(@PathVariable long id){
         return exerciseService.getExerciseById(id);
     }
 
     @GetMapping("/byworkout/{workoutId}")
-    public List<Exercise> getAllExerciseByWorkout(@PathVariable int workoutId){
+    public List<Exercise> getAllExerciseByWorkout(@PathVariable long workoutId){
         return exerciseService.getAllExerciseByWorkout(workoutId);
     }
 
@@ -37,12 +38,12 @@ public class ExerciseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateExcercise(@PathVariable int id, @RequestBody Exercise exercise){
+    public ResponseEntity<Void> updateExcercise(@PathVariable long id, @RequestBody Exercise exercise){
         return exerciseService.updateExercise(id, exercise);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteExercise(@PathVariable int id){
+    public ResponseEntity<Void> deleteExercise(@PathVariable long id){
         return exerciseService.deleteExercise(id);
     }
 

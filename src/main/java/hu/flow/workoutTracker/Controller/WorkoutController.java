@@ -11,13 +11,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/workout")
+@CrossOrigin("http://localhost:4200")
 public class WorkoutController {
 
     @Autowired
     private WorkoutService workoutService;
 
     @GetMapping("/{id}")
-    public Workout getWorkoutById(@PathVariable int id){
+    public Workout getWorkoutById(@PathVariable long id){
         return workoutService.getWorkoutById(id);
     }
 
@@ -28,13 +29,13 @@ public class WorkoutController {
 
 
     @GetMapping("/currentuser/{userId}")
-    public List<Workout> getAllWorkoutByUser(@PathVariable int userId){
+    public List<Workout> getAllWorkoutByUser(@PathVariable long userId){
         return workoutService.getAllWorkoutByUser(userId);
     }
 
 
     @PostMapping("/currentuser/{userId}")
-    public ResponseEntity<Void> createWorkout(@PathVariable int userId, @RequestBody WorkoutRequestDTO workoutRequestDTO){
+    public ResponseEntity<Void> createWorkout(@PathVariable long userId, @RequestBody WorkoutRequestDTO workoutRequestDTO){
        return workoutService.createWorkout(userId, workoutRequestDTO);
     }
 
@@ -44,7 +45,7 @@ public class WorkoutController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteWorkout(@PathVariable int id){
+    public void deleteWorkout(@PathVariable long id){
         workoutService.deleteWorkout(id);
     }
 

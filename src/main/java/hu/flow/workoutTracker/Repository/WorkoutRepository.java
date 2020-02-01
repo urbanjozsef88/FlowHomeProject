@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface WorkoutRepository extends JpaRepository<Workout, Integer> {
+public interface WorkoutRepository extends JpaRepository<Workout, Long> {
 
     public Workout findByName(String name);
 
     @Query("from Workout w where w.user.id = ?1")
-    List<Workout> getAllWorkoutByUser(int id);
+    List<Workout> getAllWorkoutByUser(long id);
 
 
 }

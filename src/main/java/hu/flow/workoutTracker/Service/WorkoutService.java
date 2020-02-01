@@ -30,7 +30,7 @@ public class WorkoutService {
     @Autowired
     private ExerciseService exerciseService;
 
-    public Workout getWorkoutById(int id){
+    public Workout getWorkoutById(long id){
          if(workoutRepository.findById(id).isPresent()){
             return workoutRepository.findById(id).get();}
          else{throw new ResponseStatusException(HttpStatus.NOT_FOUND);}
@@ -44,13 +44,13 @@ public class WorkoutService {
         return workoutRepository.findAll();
     }
 
-    public List<Workout> getAllWorkoutByUser(int userId) {
+    public List<Workout> getAllWorkoutByUser(long userId) {
         if(userRepository.findById(userId).isPresent()){
             return workoutRepository.getAllWorkoutByUser(userId);}
         else{ throw new ResponseStatusException(HttpStatus.NOT_FOUND);}
     }
 
-    public ResponseEntity<Void> createWorkout(int userId, WorkoutRequestDTO workoutRequestDTO){
+    public ResponseEntity<Void> createWorkout(long userId, WorkoutRequestDTO workoutRequestDTO){
         if(!userRepository.findById(userId).isPresent()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } else{
@@ -85,7 +85,7 @@ public class WorkoutService {
         }
     }
 
-    public void deleteWorkout(int id){
+    public void deleteWorkout(long id){
         if(workoutRepository.findById(id).isPresent()){
            workoutRepository.deleteById(id);
     } else{throw new ResponseStatusException(HttpStatus.NOT_FOUND);}}

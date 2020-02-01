@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin("http://localhost:4200")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public UserResponseDTO getUser(@RequestBody UserRequestDTO userREquestDTO){
-        return userService.getUser(userREquestDTO);
+
+
+    @GetMapping("/{id}")
+    public UserResponseDTO getUser(@PathVariable long id){
+        return userService.getUser(id);
     }
 
     @PostMapping
@@ -31,7 +34,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable int id){
+    public ResponseEntity<Void> deleteUser(@PathVariable long id){
         return userService.deleteUser(id);
     }
 

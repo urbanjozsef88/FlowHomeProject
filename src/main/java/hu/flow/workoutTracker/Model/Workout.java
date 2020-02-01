@@ -21,7 +21,7 @@ public class Workout {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @Column
     private String name;
     @Column
@@ -47,9 +47,9 @@ public class Workout {
 
     @Override
     public String toString() {
-        return  "name:'" + name + '\'' +
-                ", Total sets:" + totalSets +
-                ", Total reps:" + totalReps +
-                ", Total Weight Moved:" + totalWeightMoved;
+        return  name +
+                ": total sets: " + totalSets +
+                ", total reps: " + totalReps +
+                ", total weight moved: " + totalWeightMoved;
     }
 }
