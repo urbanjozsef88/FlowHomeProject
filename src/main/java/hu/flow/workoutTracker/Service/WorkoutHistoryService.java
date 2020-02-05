@@ -12,11 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class WorkoutHistoryService {
 
 
@@ -66,5 +68,14 @@ public class WorkoutHistoryService {
         if(userRepository.findById(userId).isPresent()){
         return workoutHistoryRepository.getAllWorkoutByUser(userId);
         } else{ throw new ResponseStatusException(HttpStatus.NOT_FOUND);}
+    }
+
+    public ResponseEntity<Void> clearHisroy(long id) {
+        workoutHistoryRepository.deleteAllByUser(id);
+        if(workoutHistoryRepository.getAllWorkoutByUser(id).size() == 0) {
+            return ResponseEntity.ok().build();
+        }else{
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 }

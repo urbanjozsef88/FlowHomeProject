@@ -16,7 +16,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
+    @PostMapping("/login")
+    public UserResponseDTO loginUser(@RequestBody UserRequestDTO userRequestDTO){
+        return userService.loginUser(userRequestDTO);}
 
     @GetMapping("/{id}")
     public UserResponseDTO getUser(@PathVariable long id){

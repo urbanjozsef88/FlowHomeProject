@@ -47,9 +47,9 @@ public class Workout {
 
     @Override
     public String toString() {
-        return  name +
-                ": total sets: " + totalSets +
-                ", total reps: " + totalReps +
-                ", total weight moved: " + totalWeightMoved;
+        return  name.toUpperCase() +
+                ": Sets: " + totalSets +
+                " Reps: " + totalReps +
+                " Weight: " + (int)totalWeightMoved+"Kg";
     }
 }

@@ -16,6 +16,7 @@ public class UserResponseDTO {
     private String firstName;
     private String lastName;
     private int numberOfWorkouts;
+    private int numberOfCompletedWorkouts;
 
 
 }

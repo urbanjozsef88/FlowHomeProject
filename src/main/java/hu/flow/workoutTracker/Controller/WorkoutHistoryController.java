@@ -17,15 +17,15 @@ public class WorkoutHistoryController {
     @Autowired
     private WorkoutHistoryService workoutHistoryService;
 
-    @GetMapping("/{id}")
+ /*   @GetMapping("/{id}")
     public CompletedWorkout getWorkoutById(@PathVariable long id){
         return workoutHistoryService.getCompletedWorkoutById(id);
-    }
+    }*/
 
-    @GetMapping
+ /*   @GetMapping
     public List<CompletedWorkout> getAllWorkout(){
         return workoutHistoryService.getAllCompletedWorkouts();
-    }
+    }*/
 
     @GetMapping("/currentuser/{userId}")
     public List<CompletedWorkout> getAllWorkoutByUser(@PathVariable long userId){
@@ -35,6 +35,11 @@ public class WorkoutHistoryController {
     @PostMapping("/currentuser/{userId}/workout/{workoutId}")
     public ResponseEntity<Void> createCompletedWorkout(@PathVariable long userId, @PathVariable long workoutId) {
        return workoutHistoryService.createCompletedWorkout(userId, workoutId);
+    }
+
+    @DeleteMapping("/currentuser/{userId}")
+    public ResponseEntity<Void> deleteWorkoutHistory(@PathVariable long userId){
+        return workoutHistoryService.clearHisroy(userId);
     }
 
 //(@RequestBody CompletedWorkoutDTO dto)
